@@ -1,12 +1,11 @@
 package com.springboot.blog.controller;
 
 import com.springboot.blog.payload.PostDto;
+import com.springboot.blog.payload.PostResponse;
 import com.springboot.blog.service.PostService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/posts")
@@ -29,8 +28,12 @@ public class PostController {
     //get all post REST API
 
     @GetMapping("/allPosts")
-    public List<PostDto> getAllPosts(){
-         return postService.getAllPost();
+    public PostResponse getAllPosts(@RequestParam(value="pageNo",defaultValue = "0",required = false) int pageNo,
+                                    @RequestParam(value="pageSize",defaultValue ="5",required = false) int pazeSize,
+                                    @RequestParam(value="sortBy", defaultValue = "id", required = false) String sortBy,
+                                    @RequestParam(value="sortDir",defaultValue = "asc",required = false) String sortDir
+                                     ){
+         return postService.getAllPost(pageNo, pazeSize,sortBy,sortDir);
     }
 
     //get post by id REST API
