@@ -7,7 +7,10 @@ import com.springboot.blog.payload.CommentDto;
 import com.springboot.blog.repository.CommentRepository;
 import com.springboot.blog.repository.PostRepository;
 import com.springboot.blog.service.CommentService;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class CommentServiceImpl implements CommentService {
@@ -39,6 +42,40 @@ public class CommentServiceImpl implements CommentService {
 
 
         return mapToDto(newComment);
+    }
+
+    @Override
+    public List<CommentDto> getCommentByPostId(long postId) {
+        //retrieve comments by postId
+
+        List<Comment> comments=commentRepository.findByPostId(postId);
+
+
+
+       //Convert the list of comment entities to list of comment dtos
+        return comments.stream().map(comment -> mapToDto(comment)).toList();
+    }
+
+    @Override
+    public CommentDto getCommentById(Long postId, Long commentId) {
+
+        Post post=postRepository.findById(postId).orElseThrow( ()-> new ResourceNotFoundException("Post","id",postId));
+
+        //retrieve comment by id
+
+        Comment comment=commentRepository.findById(commentId).orElseThrow(
+                () -> new ResourceNotFoundException("Comment","id",commentId)
+        );
+
+
+        if(comment.getPost().getId()!= post.getId()){
+           new ResourceNotFoundException(HttpStatus.BAD_REQUEST,"Comment does not belong to post",0);
+
+
+        }
+
+
+        return mapToDto(comment);
     }
 
     private CommentDto mapToDto(Comment comment)
