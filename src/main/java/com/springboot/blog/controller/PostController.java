@@ -21,7 +21,7 @@ public class PostController {
 
     //create blog post rest Api
 
-   @PreAuthorize("hasRole('Admin')")
+   @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<PostDto> createPost (@Valid @RequestBody PostDto postDto)
     {
@@ -48,7 +48,7 @@ public class PostController {
     }
 
     //Update post by id
-    @PreAuthorize("hasRole('Admin')")
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<PostDto> updatePost(@Valid @RequestBody PostDto postDto,@PathVariable(name="id") long id){
 
@@ -58,7 +58,7 @@ public class PostController {
     }
 
     //delete post REST API
-    @PreAuthorize("hasRole('Admin')")
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deletePost(@PathVariable(name="id") long id){
           postService.deletePostById(id);
