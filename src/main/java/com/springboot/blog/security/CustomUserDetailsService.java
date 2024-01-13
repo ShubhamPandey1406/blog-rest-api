@@ -1,5 +1,6 @@
 package com.springboot.blog.security;
 
+
 import com.springboot.blog.entity.User;
 import com.springboot.blog.repository.UserRepository;
 import org.springframework.security.core.GrantedAuthority;
@@ -21,7 +22,8 @@ public class CustomUserDetailsService implements UserDetailsService {
         this.userRepository = userRepository;
     }
 
-    @Override
+
+  @Override
     public UserDetails loadUserByUsername(String usernameOrEmail) throws UsernameNotFoundException {
 
      User user= userRepository.findByUsernameOrEmail(usernameOrEmail,usernameOrEmail).orElseThrow(()->
@@ -36,4 +38,6 @@ public class CustomUserDetailsService implements UserDetailsService {
         return new org.springframework.security.core.userdetails.User(user.getEmail(),
                 user.getPassword(),authorities);
     }
+
 }
+
