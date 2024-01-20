@@ -49,12 +49,20 @@ public class CategoryController {
 
     //Build Update Category REST API
 
-    @PutMapping("{id}")
+    @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<CategoryDto> updateCategory (@RequestBody CategoryDto categoryDto,
                                                   @PathVariable("id")     Long categoryId)
     {
          return ResponseEntity.ok(categoryService.updateCategory(categoryDto,categoryId));
+    }
+
+    //Build Delete Category Rest API
+    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteCategory(@PathVariable("id") Long categoryId){
+        categoryService.deleteCategory(categoryId);
+        return ResponseEntity.ok("Category deleted Successfully");
     }
 
 
